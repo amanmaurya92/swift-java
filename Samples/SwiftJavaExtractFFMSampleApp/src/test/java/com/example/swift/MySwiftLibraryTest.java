@@ -173,6 +173,11 @@ public class MySwiftLibraryTest {
     }
 
     @Test
+    void call_globalCallMeSendableRunnable_noThrow() {
+        MySwiftLibrary.globalCallMeSendableRunnable(() -> {});
+    }
+
+    @Test
     void call_globalCallMeIntSupplier_noThrow() {
         int result = MySwiftLibrary.globalCallMeIntSupplier(() -> { return 2; });
         assertEquals(2, result);
@@ -188,10 +193,5 @@ public class MySwiftLibraryTest {
     void call_globalCallMeDoubleSupplier_noThrow() {
         double result = MySwiftLibrary.globalCallMeDoubleSupplier(() -> { return 2.0; });
         assertEquals(2.0, result);
-    }
-
-    @Test
-    void call_globalCallMeIntConsumer_noThrow() {
-        MySwiftLibrary.globalCallMeIntConsumer((int a) -> { });
     }
 }

@@ -384,4 +384,30 @@ struct JNIEscapingClosureTests {
       ]
     )
   }
+
+  @Test
+  func escapingClosureSendable_javaBindings() throws {
+    let source =
+      """
+      public func executeTask(task: @escaping @Sendable () -> Void) {}
+      """
+
+    try assertOutput(
+      input: source,
+      .jni,
+      .java,
+      expectedChunks: [
+        """
+        public static class executeTask {
+          /** Corresponds to the Swift closure parameter of type {@code @escaping @Sendable () -> Void}. */
+          @ThreadSafe // Sendable
+          @FunctionalInterface
+          public interface task {
+            void apply();
+          }
+        }
+        """
+      ]
+    )
+  }
 }

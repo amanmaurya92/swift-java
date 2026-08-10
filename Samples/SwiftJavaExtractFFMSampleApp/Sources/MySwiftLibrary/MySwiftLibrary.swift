@@ -48,6 +48,10 @@ public func globalCallMeRunnable(run: () -> Void) {
   run()
 }
 
+public func globalCallMeSendableRunnable(run: @Sendable () -> Void) {
+  run()
+}
+
 public func globalCallMeBooleanSupplier(run: () -> Bool) -> Bool {
   run()
 }
@@ -62,10 +66,6 @@ public func globalCallMeLongSupplier(run: () -> Int64) -> Int64 {
 
 public func globalCallMeDoubleSupplier(run: () -> Double) -> Double {
   run()
-}
-
-public func globalCallMeIntConsumer(run: (Int32) -> Void) {
-  run(1)
 }
 
 public func globalReceiveRawBuffer(buf: UnsafeRawBufferPointer) -> Int {

@@ -873,5 +873,4 @@ Swift types conforming to `Sendable` are surfaced on the Java side with the
 callers that the wrapped Swift value is safe to share across threads. This
 translation is applied by both JNI and FFM modes.
 
-> Note: `@Sendable` as a closure-parameter attribute is not yet supported; the
-> environment captured inside the closure would need special handling.
+> Note: `@Sendable` as a closure-parameter attribute is supported; the generated Java functional interface will be annotated with `@ThreadSafe // Sendable`.
