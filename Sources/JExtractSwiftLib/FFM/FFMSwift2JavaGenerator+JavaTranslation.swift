@@ -155,6 +155,7 @@ extension FFMSwift2JavaGenerator {
     var result: TranslatedResult
     var swiftType: SwiftFunctionType
     var cdeclType: SwiftFunctionType
+    var isSendable: Bool { swiftType.isSendable }
 
     /// Whether or not this functional interface with C ABI compatible.
     var isCompatibleWithC: Bool {

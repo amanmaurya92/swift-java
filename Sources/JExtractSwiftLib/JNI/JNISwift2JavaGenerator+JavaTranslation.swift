@@ -1806,6 +1806,7 @@ extension JNISwift2JavaGenerator {
     var swiftType: SwiftFunctionType
 
     var isEscaping: Bool { swiftType.isEscaping }
+    var isSendable: Bool { swiftType.isSendable }
 
     /// Represents this `TranslatedFunctionType` if we need to create a synthetic protocol
     /// to handle the cross-language call to the function (closure).

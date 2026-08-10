@@ -51,7 +51,7 @@ extension FFMSwift2JavaGenerator {
       if let outCallback = translated.translatedSignature.result.outCallback {
         self.printUpcallParameterDescriptorClasses(&printer, outCallback)
       } else { // FIXME: not an "else"
-        self.printParameterDescriptorClasses(&printer, cFunc)
+        self.printParameterDescriptorClasses(&printer, cFunc, translated: translated)
       }
     }
   }
@@ -162,12 +162,14 @@ extension FFMSwift2JavaGenerator {
   func printParameterDescriptorClasses(
     _ printer: inout JavaPrinter,
     _ cFunc: CFunction,
+    translated: TranslatedFunctionDecl? = nil
   ) {
     for param in cFunc.parameters {
       switch param.type {
       case .pointer(.function):
         let name = "$\(param.name!)"
-        printFunctionPointerParameterDescriptorClass(&printer, name, param.type, impl: nil)
+        let isSendable = translated?.functionTypes.first(where: { $0.name == param.name })?.isSendable ?? false
+        printFunctionPointerParameterDescriptorClass(&printer, name, param.type, impl: nil, isSendable: isSendable)
       default:
         continue
       }
@@ -204,6 +206,7 @@ extension FFMSwift2JavaGenerator {
     _ name: String,
     _ cType: CType,
     impl: OutCallback?,
+    isSendable: Bool = false
   ) {
     let cResultType: CType
     let cParameterTypes: [CType]
@@ -240,6 +243,9 @@ extension FFMSwift2JavaGenerator {
         }
 
       if !isKnownFuncInterface {
+        if isSendable {
+          printer.print("@ThreadSafe // Sendable")
+        }
         printer.print(
           """
           @FunctionalInterface
